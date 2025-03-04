@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protected Page</title>
+</head>
+<body>
+  <h1>Protected Content</h1>
+  <p>Welcome! You are authorized to view this page.</p>
+
+  <script>
+    // Check if there is a valid token in localStorage
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('You need to login first!');
+      window.location.href = 'index.html'; // Redirect to login page
+    }
+
+    // Make a request to the protected route
+    fetch('http://localhost:5000/protected', {
+      method: 'GET',
+      headers: { 'Authorization': token }
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert(data.message);
+    })
+    .catch(error => {
+      alert('Access denied!');
+      window.location.href = 'index.html'; // Redirect to login page if token is invalid
+    });
+  </script>
+</body>
+</html>
